@@ -5,7 +5,7 @@
     xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"  
-	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:beans="http://www.springframework.org/schema/bean"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -22,51 +22,12 @@
     http://directwebremoting.org/schema/spring-dwr-3.0.xsd">
 
 	<description>dwr源配置文件 </description>
-<!-- 	<dwr:annotation-scan scanRemoteProxy="true" scanDataTransferObject="true" base-package="com.hdsx.framework" />   -->
-<!--     <dwr:annotation-config />   -->
-<!--     <dwr:url-mapping />   -->
-    <!-- 创建一个dwr controller用来映射dwr请求 -->  
-    
-    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">  
-        <property name="order" value="1" />  
-    </bean>  
-    <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">  
-        <property name="order" value="2" />  
-    </bean>  
-    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />  
-    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />  
-    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">  
-        <property name="order" value="3" />  
-        <property value="true" name="alwaysUseFullPath"></property>  
-        <property name="mappings">  
-            <props>  
-                <prop key="/dwr/**">dwrController</prop>  
-            </props>  
-        </property>  
-    </bean>  
-    <dwr:controller id="dwrController" debug="true">
-         <dwr:config-param name="activeReverseAjaxEnabled" value="true"/>
-         <dwr:config-param name="allowScriptTagRemoting" value="true" />  
-         <dwr:config-param name="crossDomainSessionSecurity" value="false" />
-         <dwr:config-param name="pollAndCometEnabled" value="false" />
-         <dwr:config-param name="debug " value="true"/>
-    </dwr:controller>
-    <dwr:configuration>  
-        <!-- converters -->  
-        <dwr:convert type="bean" class="com.hdsx.framework.module.demo.bean.TUser" />  
-    </dwr:configuration>  
-    <!-- 暴露服务 -->  
-    <bean id="dwrService" class="com.hdsx.framework.dwr.MessageServiceImpl">  
-        <dwr:remote javascript="dwrService">  
-            <dwr:include method="message" />  
-        </dwr:remote>  
-    </bean>  
-    <bean class="com.hdsx.framework.dwr.single.SingleMessage">  
-        <dwr:remote javascript="SingleMessage">  
-            <dwr:include method="addMessage" />  
-            <dwr:include method="startListening" />
-        </dwr:remote>  
-    </bean>  
-    
+    <bean id="chatService" class="com.hdsx.comet.dwr.ChatService"/>
+    <bean  class="com.hdsx.comet.dwr.JMSMessageListener"/>
+    <bean class="com.hdsx.comet.dwr.JMSConsumerService">
+        <property name="brokerURL" value="failover:(tcp://127.0.0.1:61616)"/>
+        <property name="queneName" value="Test.foo"/>
+        <property name="topicName" value="Test.foo"/>
+    </bean>
 </beans>
 

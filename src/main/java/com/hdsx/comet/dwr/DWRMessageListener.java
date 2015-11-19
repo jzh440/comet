@@ -1,4 +1,4 @@
-package com.hdsx.comet.dwr.client;
+package com.hdsx.comet.dwr;
 
 import java.util.Collection;
 import java.util.Date;
@@ -13,7 +13,7 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.web.context.ServletContextAware;
 
-import com.hdsx.comet.dwr.event.HDMessageEvent;
+import com.hdsx.comet.event.JMSApplicationEvent;
 import com.hdsx.comet.vo.Message;
 
 public class DWRMessageListener implements ApplicationListener, ServletContextAware {
@@ -29,7 +29,7 @@ public class DWRMessageListener implements ApplicationListener, ServletContextAw
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
 		// TODO Auto-generated method stub
-		 if (event instanceof HDMessageEvent) {
+		 if (event instanceof JMSApplicationEvent) {
 	           String msg = (String) event.getSource();
 	            ServerContext context = ServerContextFactory.get();
 	            //获得客户端所有chat页面script session连接数

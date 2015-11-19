@@ -1,4 +1,4 @@
-package com.hdsx.comet.dwr.client;
+package com.hdsx.comet.dwr;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -7,7 +7,7 @@ import javax.jms.TextMessage;
 
 import org.springframework.context.ApplicationContext;
 
-import com.hdsx.comet.dwr.event.HDMessageEvent;
+import com.hdsx.comet.event.JMSApplicationEvent;
 
 public class JMSMessageListener implements MessageListener {
 
@@ -23,7 +23,7 @@ public class JMSMessageListener implements MessageListener {
 		TextMessage msg = (TextMessage) message;
 		try {
 			System.out.println("JMS:"+msg.getText());
-			context.publishEvent(new HDMessageEvent(msg.getText()));
+			context.publishEvent(new JMSApplicationEvent(msg.getText()));
 		} catch (JMSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

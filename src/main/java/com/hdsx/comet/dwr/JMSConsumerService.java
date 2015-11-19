@@ -1,4 +1,4 @@
-package com.hdsx.comet.dwr.client;
+package com.hdsx.comet.dwr;
 import java.io.Serializable;
 
 /**

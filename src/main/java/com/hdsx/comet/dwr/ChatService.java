@@ -1,10 +1,10 @@
-package com.hdsx.comet.dwr.client;
+package com.hdsx.comet.dwr;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import com.hdsx.comet.dwr.event.HDMessageEvent;
+import com.hdsx.comet.event.JMSApplicationEvent;
 
 public class ChatService implements ApplicationContextAware {
 
@@ -16,7 +16,7 @@ public class ChatService implements ApplicationContextAware {
 	}
 	
 	public void sendMessage(String msg){
-		context.publishEvent(new HDMessageEvent(msg));
+		context.publishEvent(new JMSApplicationEvent(msg));
 	}
 
 }
